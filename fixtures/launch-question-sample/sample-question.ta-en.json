@@ -1,0 +1,66 @@
+{
+  "question_id": "q_fixture_polity_001",
+  "version_id": "qv_fixture_polity_001_v1",
+  "content_class": "experimental",
+  "status": "imported",
+  "exam": {
+    "exam_id": "tnpsc_group_iv_provisional",
+    "syllabus_version": "UNVERIFIED_PHASE0"
+  },
+  "syllabus": {
+    "primary_node_id": "polity.constitution.fundamental_rights",
+    "secondary_node_ids": [],
+    "mapping_confidence": 0.5
+  },
+  "type": "direct_mcq",
+  "prompt": {
+    "en": "Fixture only: Which constitutional concept is being tested?",
+    "ta": "மாதிரி தரவு மட்டும்: இக்கேள்வி எந்த அரசியலமைப்புக் கருத்தைச் சோதிக்கிறது?"
+  },
+  "options": [
+    {
+      "option_id": "A",
+      "text": {
+        "en": "Fundamental Rights",
+        "ta": "அடிப்படை உரிமைகள்"
+      }
+    },
+    {
+      "option_id": "B",
+      "text": {
+        "en": "Directive Principles",
+        "ta": "அரசு வழிகாட்டும் நெறிமுறைகள்"
+      }
+    }
+  ],
+  "answer": {
+    "correct_option_ids": [
+      "A"
+    ],
+    "verified": false,
+    "rationale": {
+      "en": "This is a schema fixture, not publishable exam content.",
+      "ta": "இது தரவமைப்பு மாதிரி மட்டுமே; வெளியிடத்தக்க தேர்வுக் கேள்வி அல்ல."
+    }
+  },
+  "provenance": {
+    "source_type": "fixture",
+    "source_id": "phase0-contract",
+    "source_locator": "not an official source",
+    "final_key": false
+  },
+  "language": {
+    "original": "en",
+    "available": [
+      "en",
+      "ta"
+    ],
+    "glossary_version": "draft-0"
+  },
+  "review": {
+    "reviewer_id": "unassigned",
+    "reviewed_at": "2026-07-12T00:00:00Z",
+    "notes": "Must remain experimental."
+  },
+  "generation": null
+}
