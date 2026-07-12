@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://parikshai.example/schemas/question.schema.json",
+  "title": "Parikshai canonical question fixture",
+  "type": "object",
+  "required": [
+    "question_id",
+    "version_id",
+    "content_class",
+    "status",
+    "exam",
+    "syllabus",
+    "type",
+    "prompt",
+    "options",
+    "answer",
+    "provenance",
+    "language"
+  ],
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "pattern": "^q_[a-z0-9_]+$"
+    },
+    "version_id": {
+      "type": "string",
+      "pattern": "^qv_[a-z0-9_]+$"
+    },
+    "content_class": {
+      "enum": [
+        "official",
+        "curated",
+        "ai_assisted",
+        "experimental"
+      ]
+    },
+    "status": {
+      "enum": [
+        "imported",
+        "structurally_valid",
+        "answer_verified",
+        "explanation_verified",
+        "language_reviewed",
+        "publishable",
+        "published",
+        "disputed",
+        "corrected",
+        "archived"
+      ]
+    },
+    "exam": {
+      "type": "object",
+      "required": [
+        "exam_id",
+        "syllabus_version"
+      ],
+      "properties": {
+        "exam_id": {
+          "type": "string"
+        },
+        "syllabus_version": {
+          "type": "string"
+        }
+      }
+    },
+    "syllabus": {
+      "type": "object",
+      "required": [
+        "primary_node_id"
+      ],
+      "properties": {
+        "primary_node_id": {
+          "type": "string"
+        },
+        "secondary_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mapping_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "type": {
+      "enum": [
+        "direct_mcq",
+        "multi_statement",
+        "assertion_reason",
+        "match",
+        "passage_linked",
+        "table_data",
+        "chronology",
+        "numerical",
+        "image_diagram",
+        "multi_select"
+      ]
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "minProperties": 1
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "option_id",
+          "text"
+        ],
+        "properties": {
+          "option_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "answer": {
+      "type": "object",
+      "required": [
+        "correct_option_ids",
+        "verified"
+      ],
+      "properties": {
+        "correct_option_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_type",
+        "source_id"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_locator": {
+          "type": "string"
+        },
+        "final_key": {
+          "type": "boolean"
+        }
+      }
+    },
+    "language": {
+      "type": "object",
+      "required": [
+        "original",
+        "available"
+      ],
+      "properties": {
+        "original": {
+          "type": "string"
+        },
+        "available": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "glossary_version": {
+          "type": "string"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "reviewer_id": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "generation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "prompt_version": {
+          "type": "string"
+        },
+        "validator_results": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,42 +1,39 @@
 # Parikshai
 
-> an AI tutor that generates unlimited vernacular mock questions and explains every wrong answer for state exams.
+> A trusted Tamil-first learning engine for government-exam practice: focused daily questions, clear mistake explanations, and practice that adapts to weak topics.
 
-**Alternative to the product-shape pioneered by Entri (YC S20)** — rank #6 of 500 in the [YC-500 Fable 5 Venture Blueprint](https://github.com/) (score 7.35/10).
+**Status:** Phase 0 strategic foundation is implemented as a reviewable product constitution. The public launch wedge is provisional until learner interviews and prototype evidence satisfy the Phase 1 entry gate.
 
-## Why this exists
-Government-exam aspirants want cheap vernacular practice and doubt-solving. The buildable wedge: an ai vernacular doubt-solver and mock-test generator for one exam.
+## Opening position
 
-## MVP scope
-- [ ] Syllabus-based question gen
-- [ ] vernacular explanations
-- [ ] timed mocks
-- [ ] weak-topic tracking
-- [ ] daily practice reminders
+- **Provisional public wedge:** TNPSC Group IV, Tamil-first with bilingual technical terminology.
+- **Internal proving ground:** the founder's existing UGC-NET corpus and question-quality learnings.
+- **First loop:** diagnostic → 10-question daily practice → mistake explanation → weakness update → next-practice recommendation.
+- **Truth rule:** verified content is scored; generated content is quarantined until validated.
+- **AI role:** tutor and content assistant, never silent authority over official answers.
+- **Permanent identity:** Supabase authenticated user ID, not name, device, or onboarding data.
 
-## Architecture
-`Workers+Supabase+Claude` — Cloudflare Workers + Hono API, Supabase (Postgres + RLS + Auth + pgvector), Claude API via Agent SDK (claude-fable-5 for agent reasoning, claude-haiku-4-5 for volume), wrangler deploys.
+## Phase map
 
-**Integrations:** Claude; TTS for audio explanations
-**Data:** Syllabus, question bank, attempt logs, weak topics
-**Agent core:** Agent generates fresh questions and tutors each wrong answer in the learner's language.
+- **Phase 0 — Choose the board:** product constitution, wedge, trust rules, evidence plan, economics, risks.
+- **Phase 1 — Truth layer:** canonical content model, provenance, versioning, review workflow, reliable renderer.
+- **Phase 2 — Learning loop:** onboarding, diagnostic, daily practice, mistake review, progress restoration.
+- **Phase 3 — Learner model:** deterministic mastery and next-best-practice selection.
+- **Phase 4 — Grounded tutor:** source-backed Tamil explanations and misconception checks.
+- **Phase 5 — Controlled generation:** offline candidate generation, critics, validators, review, rollback.
 
-## Business
-| | |
-|---|---|
-| Monetization | $2-5/mo subscription |
-| First customer | State government-exam aspirants in tier-2/3 India |
-| GTM wedge | YouTube and Telegram exam-prep communities, regional SEO. |
-| Competition risk | High: Entri and coaching apps |
-| Regulatory/trust risk | Low |
-| India angle | Regional-language mock tests for Indian state and central exams. |
-| Difficulty / build time | Low / 2-3 weeks |
+Start with [`docs/phase-0/PHASE_0.md`](docs/phase-0/PHASE_0.md).
 
-## 30-day plan
-- **W1:** core loop — Syllabus-based question gen + vernacular explanations
-- **W2:** timed mocks + weak-topic tracking + daily practice reminders + auth + billing
-- **W3:** polish, instrument events, seed first users via: YouTube and Telegram exam-prep communities, regional SEO.
-- **W4:** launch + first revenue; kill/scale decision
+## Proposed architecture boundary
+
+`Clients → Cloudflare Worker/Hono API → Supabase Postgres/Auth/Storage`
+
+AI generation, translation, and evaluation run behind queues where possible. Core practice must continue when model services are unavailable.
+
+## Non-goals for the opening
+
+No multi-exam launch, eight-language launch, live unreviewed question generation, coaching marketplace, social feed, elaborate gamification, rank guarantees, or TTS dependency.
 
 ---
-*Built with Fable 5 (Claude Code). Blueprint row: inspired by Entri — "Vernacular exam-prep and skilling app in eight Indian languages."*
+
+Initial blueprint created with Fable 5. Phase 0 turns that seed into an explicit, falsifiable product position.
