@@ -148,6 +148,29 @@ left join content.question_syllabus_mappings qsm on qsm.syllabus_node_id = sn.id
 left join content.question_versions qv on qv.id = qsm.question_version_id
 group by sn.exam_version_id, sn.id, sn.path, qv.content_class, qv.status;
 
+create or replace function content.normalize_question_report_insert()
+returns trigger
+language plpgsql
+security definer
+set search_path = content, public
+as $$
+begin
+  if not content.is_staff() then
+    new.reporter_id := auth.uid();
+    new.status := 'open';
+    new.severity := 'warning';
+    new.triaged_by := null;
+    new.triaged_at := null;
+    new.resolution_notes := null;
+  end if;
+  return new;
+end;
+$$;
+
+create trigger question_reports_normalize_learner_insert
+before insert on content.question_reports
+for each row execute function content.normalize_question_report_insert();
+
 alter table content.staff_users enable row level security;
 alter table content.exams enable row level security;
 alter table content.exam_versions enable row level security;
@@ -275,12 +298,14 @@ create policy publication_events_staff_read on content.publication_events
 for select to authenticated using (content.is_staff());
 
 revoke all on schema content from public;
-grant usage on schema content to anon, authenticated;
+grant usage on schema content to anon, authenticated, service_role;
 
 grant select on content.api_exams, content.api_syllabus_nodes, content.api_published_questions
   to anon, authenticated;
 
-grant select, insert, update on content.question_reports to authenticated;
+revoke all on content.question_reports from authenticated;
+grant select on content.question_reports to authenticated;
+grant insert (question_version_id, reason_code, description) on content.question_reports to authenticated;
 
 grant all on all tables in schema content to service_role;
 grant all on all sequences in schema content to service_role;
