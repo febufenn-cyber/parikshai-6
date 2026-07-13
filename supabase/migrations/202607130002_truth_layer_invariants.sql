@@ -272,20 +272,23 @@ returns trigger
 language plpgsql
 as $$
 declare
-  version_id uuid;
-  version_status content.content_status;
+  old_version_status content.content_status;
+  new_version_status content.content_status;
 begin
-  if tg_op = 'DELETE' then
-    version_id := old.question_version_id;
-  else
-    version_id := new.question_version_id;
+  if tg_op in ('UPDATE', 'DELETE') then
+    select status into old_version_status
+    from content.question_versions
+    where id = old.question_version_id;
   end if;
 
-  select status into version_status
-  from content.question_versions
-  where id = version_id;
+  if tg_op in ('INSERT', 'UPDATE') then
+    select status into new_version_status
+    from content.question_versions
+    where id = new.question_version_id;
+  end if;
 
-  if version_status in ('published', 'disputed', 'corrected', 'archived') then
+  if old_version_status in ('published', 'disputed', 'corrected', 'archived')
+     or new_version_status in ('published', 'disputed', 'corrected', 'archived') then
     raise exception 'Child records of a published or terminal question version are immutable; create a successor version';
   end if;
 
@@ -402,6 +405,24 @@ $$;
 create trigger questions_enforce_current_pointer
 before insert or update of current_published_version_id on content.questions
 for each row execute function content.enforce_current_published_pointer();
+
+create or replace function content.prevent_question_identity_mutation()
+returns trigger
+language plpgsql
+as $$
+begin
+  if (old.stable_key is distinct from new.stable_key
+      or old.exam_version_id is distinct from new.exam_version_id)
+     and exists (select 1 from content.question_versions qv where qv.question_id = old.id) then
+    raise exception 'Stable question identity and exam version cannot change after versions exist';
+  end if;
+  return new;
+end;
+$$;
+
+create trigger questions_prevent_identity_mutation
+before update of stable_key, exam_version_id on content.questions
+for each row execute function content.prevent_question_identity_mutation();
 
 create or replace function content.enforce_correction_lineage()
 returns trigger
