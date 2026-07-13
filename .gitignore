@@ -4,4 +4,6 @@ node_modules/
 .dev.vars
 dist/
 .wrangler/
+.supabase/
+coverage/
 .DS_Store
