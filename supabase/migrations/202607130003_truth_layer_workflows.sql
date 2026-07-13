@@ -1,5 +1,36 @@
 -- Parikshai Phase 1: publication, suppression, and archive workflows.
 
+create or replace function content.jsonb_contains_key_recursive(p_payload jsonb, p_keys text[])
+returns boolean
+language plpgsql
+immutable
+as $$
+declare
+  item record;
+begin
+  if p_payload is null then
+    return false;
+  end if;
+
+  if jsonb_typeof(p_payload) = 'object' then
+    for item in select key, value from jsonb_each(p_payload) loop
+      if item.key = any(p_keys)
+         or content.jsonb_contains_key_recursive(item.value, p_keys) then
+        return true;
+      end if;
+    end loop;
+  elsif jsonb_typeof(p_payload) = 'array' then
+    for item in select value from jsonb_array_elements(p_payload) loop
+      if content.jsonb_contains_key_recursive(item.value, p_keys) then
+        return true;
+      end if;
+    end loop;
+  end if;
+
+  return false;
+end;
+$$;
+
 create or replace function content.validate_question_version(p_version_id uuid)
 returns table(rule_code text, passed boolean, details text)
 language plpgsql
@@ -95,9 +126,15 @@ begin
     'Prompt must include the original language key'
   union all
   select 'no_answer_leak_in_public_payload',
-    not (v.prompt ?| array['answer', 'correct_answer', 'correct_option_keys'])
-      and not (v.shared_payload ?| array['answer', 'correct_answer', 'correct_option_keys']),
-    'Prompt/shared payload must not contain answer-bearing top-level keys'
+    not content.jsonb_contains_key_recursive(
+      v.prompt,
+      array['answer', 'correct_answer', 'correct_option_keys', 'answer_payload']
+    )
+      and not content.jsonb_contains_key_recursive(
+        v.shared_payload,
+        array['answer', 'correct_answer', 'correct_option_keys', 'answer_payload']
+      ),
+    'Prompt/shared payload must not contain answer-bearing keys at any depth'
   union all
   select 'choice_option_count',
     (not choice_based) or (select count(*) >= 2 from content.question_options qo where qo.question_version_id = v.id),
