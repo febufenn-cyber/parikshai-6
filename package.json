@@ -1,0 +1,14 @@
+{
+  "name": "parikshai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/validate-question-fixtures.mjs && node scripts/validate-sql-contracts.mjs",
+    "validate:fixtures": "node scripts/validate-question-fixtures.mjs",
+    "validate:sql": "node scripts/validate-sql-contracts.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
