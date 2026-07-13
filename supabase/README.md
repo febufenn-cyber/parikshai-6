@@ -2,7 +2,10 @@
 
 ## Apply locally
 
+Install the Supabase CLI. If this checkout does not yet contain `supabase/config.toml`, initialize it once before starting the local stack:
+
 ```bash
+supabase init
 supabase start
 supabase db reset
 supabase test db
