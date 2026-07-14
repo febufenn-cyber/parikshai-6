@@ -1,0 +1,12 @@
+name = "parikshai-api"
+main = "src/index.ts"
+compatibility_date = "2026-07-14"
+
+[vars]
+APP_ENV = "development"
+API_VERSION = "v1"
+
+# Secrets must be configured with `wrangler secret put`:
+# SUPABASE_URL
+# SUPABASE_ANON_KEY
+# SUPABASE_SERVICE_ROLE_KEY
