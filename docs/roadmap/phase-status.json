@@ -1,0 +1,93 @@
+{
+  "$schema": "./phase-status.schema.json",
+  "roadmap_version": "1.0",
+  "updated_at": "2026-07-14",
+  "repository": "febufenn-cyber/parikshai-6",
+  "default_branch": "main",
+  "build_command": {
+    "default": "Implement the lowest-numbered phase whose status is ready or planned, one phase per build command.",
+    "required_merge_strategy": "squash",
+    "required_confirmation": [
+      "pull_request_merged",
+      "merge_commit_on_main",
+      "validation_reported",
+      "status_manifest_updated"
+    ]
+  },
+  "phases": [
+    {
+      "id": 0,
+      "slug": "product-constitution",
+      "name": "Choose the board",
+      "status": "complete",
+      "pr": 1,
+      "merge_commit": "0fbf88e6ab6d4e1a59a189b6d2db0b248cf7746d",
+      "entry_gate_document": "docs/phase-0/PHASE_0.md",
+      "handoff_document": "docs/phase-0/PHASE_0.md"
+    },
+    {
+      "id": 1,
+      "slug": "canonical-truth-layer",
+      "name": "Truth layer",
+      "status": "complete",
+      "pr": 2,
+      "merge_commit": "6c226f105f6fa0bbdb027568b8ccedf1cf9c554b",
+      "entry_gate_document": "docs/phase-1/PHASE_1.md",
+      "handoff_document": "docs/phase-1/HANDOFF.md",
+      "known_blockers": [
+        "Run supabase db reset and supabase test db against the target Supabase/Postgres version before scored Phase 2 staging use."
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "learning-loop",
+      "name": "Smallest complete learning loop",
+      "status": "ready",
+      "pr": null,
+      "merge_commit": null,
+      "plan_anchor": "Phase 2 — Smallest Complete Learning Loop",
+      "required_documents": [
+        "docs/phase-2/PHASE_2.md",
+        "docs/phase-2/DECISIONS.md",
+        "docs/phase-2/THREAT_MODEL.md",
+        "docs/phase-2/VALIDATION.md",
+        "docs/phase-2/HANDOFF.md"
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "learner-model",
+      "name": "Deterministic learner model",
+      "status": "planned",
+      "depends_on": [2],
+      "pr": null,
+      "merge_commit": null,
+      "plan_anchor": "Phase 3 — Deterministic Learner Model"
+    },
+    {
+      "id": 4,
+      "slug": "grounded-tutor",
+      "name": "Grounded Tamil/bilingual tutor",
+      "status": "planned",
+      "depends_on": [3],
+      "pr": null,
+      "merge_commit": null,
+      "plan_anchor": "Phase 4 — Grounded Tamil/Bilingual Tutor"
+    },
+    {
+      "id": 5,
+      "slug": "controlled-generation",
+      "name": "Controlled question generation",
+      "status": "planned",
+      "depends_on": [4],
+      "pr": null,
+      "merge_commit": null,
+      "plan_anchor": "Phase 5 — Controlled Question Generation"
+    }
+  ],
+  "production_release_gate": {
+    "status": "planned",
+    "counted_as_phase": false,
+    "plan_anchor": "Production Release Gate — Not a Separate Phase"
+  }
+}
