@@ -2,7 +2,7 @@
 
 > A trusted Tamil-first learning engine for government-exam practice: focused daily questions, clear mistake explanations, and practice that adapts to weak topics.
 
-**Status:** Phase 1 engineering foundation is implemented. The canonical truth layer now has versioning, provenance, review states, controlled publication, suppression, correction lineage, RLS boundaries, fixture validation, and database contract tests. Four implementation phases remain. Public scored launch remains blocked on the Phase 0 learner, language, content-sample, pilot, and economics gates.
+**Status:** Phase 2 engineering foundation is implemented. The repository now contains the canonical content truth layer plus an authenticated/anonymous learning-loop API with immutable sessions, idempotent submissions, post-submission reveal, bookmarks, reports, raw evidence, and restoration. Scored staging remains blocked until the Supabase migrations and pgTAP suites execute against the target project.
 
 ## Opening position
 
@@ -16,33 +16,32 @@
 ## Implemented foundation
 
 - Phase 0 product constitution and evidence gates
-- Supabase/Postgres canonical truth-layer migrations
-- Stable questions plus immutable learner-visible versions
-- Provenance, syllabus mapping, options, assets, passages, and explanations
-- Editorial reviews, validator results, reports, and correction-impact records
-- Database-enforced publication, suppression, and archive functions
-- Answer-free learner views and backend-only canonical answer records
-- RLS learner/editor boundaries with constrained question-report writes
-- Dependency-free fixture validation and GitHub Actions CI
-- pgTAP database contract tests
+- Phase 1 canonical truth layer, controlled publishing, correction lineage, and answer-free learner views
+- Cloudflare Worker + Hono TypeScript API
+- Server-issued anonymous identities with hashed secrets
+- Non-destructive anonymous-to-auth progress attachment
+- Diagnostic, daily, and topic practice sessions
+- Immutable session-question snapshots tied to exact question versions
+- Atomic, idempotent answer submission and verified result reveal
+- Append-only results and raw learning evidence
+- Bookmarks, question reports, and reinstall/multi-device restoration contracts
+- Backend-only service-role RPC boundary
+- TypeScript, unit, static-contract, roadmap, and pgTAP test suites
 
 ## Remaining implementation phases
 
-1. **Phase 2 — Learning loop:** onboarding, diagnostic, daily practice, mistake review, offline/idempotent attempts, progress restoration.
-2. **Phase 3 — Learner model:** deterministic mastery evidence and next-best-practice selection.
-3. **Phase 4 — Grounded tutor:** source-backed Tamil/bilingual explanations, evaluation, caching, and cost controls.
-4. **Phase 5 — Controlled generation:** quarantined candidate generation, critics, validators, review, duplicate control, and rollback.
+1. **Phase 3 — Learner model:** deterministic mastery evidence and next-best-practice selection.
+2. **Phase 4 — Grounded tutor:** source-backed Tamil/bilingual explanations, evaluation, caching, and cost controls.
+3. **Phase 5 — Controlled generation:** quarantined candidate generation, critics, validators, review, duplicate control, and rollback.
 
 The controlling autonomous plan is [`docs/roadmap/REMAINING_PHASES.md`](docs/roadmap/REMAINING_PHASES.md). Machine-readable progress is stored in [`docs/roadmap/phase-status.json`](docs/roadmap/phase-status.json).
 
-When instructed to **`build`**, the implementation process must read and validate that roadmap, implement the next incomplete phase on a dedicated branch, test it, open and inspect a PR, squash-merge it into `main`, and confirm the resulting merge commit.
-
 ## Phase map
 
-- **Phase 0 — Choose the board:** product constitution, wedge, trust rules, evidence plan, economics, risks. **Complete.**
-- **Phase 1 — Truth layer:** canonical content model, provenance, versioning, review workflow, safe publication. **Engineering foundation complete.**
-- **Phase 2 — Learning loop:** ready for the next `build` command.
-- **Phase 3 — Learner model:** planned after Phase 2.
+- **Phase 0 — Choose the board:** complete.
+- **Phase 1 — Truth layer:** engineering foundation complete.
+- **Phase 2 — Learning loop:** engineering foundation complete; target database/staging validation still required.
+- **Phase 3 — Learner model:** next eligible phase after Phase 2 completion metadata is recorded.
 - **Phase 4 — Grounded tutor:** planned after Phase 3.
 - **Phase 5 — Controlled generation:** planned after Phase 4.
 
@@ -50,16 +49,17 @@ Start with:
 
 - [`docs/phase-0/PHASE_0.md`](docs/phase-0/PHASE_0.md)
 - [`docs/phase-1/PHASE_1.md`](docs/phase-1/PHASE_1.md)
+- [`docs/phase-2/PHASE_2.md`](docs/phase-2/PHASE_2.md)
 - [`docs/roadmap/REMAINING_PHASES.md`](docs/roadmap/REMAINING_PHASES.md)
 - [`supabase/README.md`](supabase/README.md)
 
-## Validation
+## Install and validate
 
 ```bash
+npm install
 npm test
+npm run typecheck
 ```
-
-This validates question fixtures, static SQL contracts, and the remaining-phase roadmap/status manifest.
 
 With Supabase CLI installed and the project initialized:
 
@@ -69,16 +69,19 @@ supabase db reset
 supabase test db
 ```
 
+Run the Worker locally:
+
+```bash
+cp .dev.vars.example .dev.vars
+npx wrangler dev
+```
+
 ## Architecture boundary
 
-`Clients → Cloudflare Worker/Hono API → Supabase Postgres/Auth/Storage`
+`Clients → Cloudflare Worker/Hono API → Supabase Auth/PostgREST → learning/content schemas`
 
-AI generation, translation, and evaluation run behind queues where possible. Core practice must continue when model services are unavailable. Application routes must call the database publication contract rather than reproducing trust rules in client or API code.
+The service-role key remains Worker-only. Learner clients never receive direct access to canonical answers, attempt tables, or evidence tables. AI generation, translation, and evaluation remain later-phase asynchronous capabilities; the core practice loop does not depend on model availability.
 
 ## Non-goals for the opening
 
 No multi-exam launch, eight-language launch, live unreviewed question generation, coaching marketplace, social feed, elaborate gamification, rank guarantees, or TTS dependency.
-
----
-
-Initial blueprint created with Fable 5. Phase 0 made the position falsifiable; Phase 1 makes content truth enforceable; the remaining roadmap makes future implementation reproducible and reviewable.
