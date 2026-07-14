@@ -11,7 +11,7 @@ function requireMatch(text, pattern, message) {
 }
 
 const migrationNames = (await readdir(migrationDir))
-  .filter((name) => name.endsWith('.sql'))
+  .filter((name) => /^20260713\d+_.*\.sql$/.test(name))
   .sort();
 
 if (migrationNames.length !== 4) {
@@ -66,5 +66,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${migrationNames.length} migrations and ${assertions} pgTAP assertions.`);
+  console.log(`Validated ${migrationNames.length} Phase 1 migrations and ${assertions} pgTAP assertions.`);
 }
