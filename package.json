@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node scripts/validate-question-fixtures.mjs && node scripts/validate-sql-contracts.mjs",
+    "test": "node scripts/validate-question-fixtures.mjs && node scripts/validate-sql-contracts.mjs && node scripts/validate-roadmap.mjs",
     "validate:fixtures": "node scripts/validate-question-fixtures.mjs",
-    "validate:sql": "node scripts/validate-sql-contracts.mjs"
+    "validate:sql": "node scripts/validate-sql-contracts.mjs",
+    "validate:roadmap": "node scripts/validate-roadmap.mjs"
   },
   "engines": {
     "node": ">=20"

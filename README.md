@@ -2,7 +2,7 @@
 
 > A trusted Tamil-first learning engine for government-exam practice: focused daily questions, clear mistake explanations, and practice that adapts to weak topics.
 
-**Status:** Phase 1 engineering foundation is implemented. The canonical truth layer now has versioning, provenance, review states, controlled publication, suppression, correction lineage, RLS boundaries, fixture validation, and database contract tests. Public scored launch remains blocked on the Phase 0 learner, language, content-sample, pilot, and economics gates.
+**Status:** Phase 1 engineering foundation is implemented. The canonical truth layer now has versioning, provenance, review states, controlled publication, suppression, correction lineage, RLS boundaries, fixture validation, and database contract tests. Four implementation phases remain. Public scored launch remains blocked on the Phase 0 learner, language, content-sample, pilot, and economics gates.
 
 ## Opening position
 
@@ -26,19 +26,31 @@
 - Dependency-free fixture validation and GitHub Actions CI
 - pgTAP database contract tests
 
+## Remaining implementation phases
+
+1. **Phase 2 — Learning loop:** onboarding, diagnostic, daily practice, mistake review, offline/idempotent attempts, progress restoration.
+2. **Phase 3 — Learner model:** deterministic mastery evidence and next-best-practice selection.
+3. **Phase 4 — Grounded tutor:** source-backed Tamil/bilingual explanations, evaluation, caching, and cost controls.
+4. **Phase 5 — Controlled generation:** quarantined candidate generation, critics, validators, review, duplicate control, and rollback.
+
+The controlling autonomous plan is [`docs/roadmap/REMAINING_PHASES.md`](docs/roadmap/REMAINING_PHASES.md). Machine-readable progress is stored in [`docs/roadmap/phase-status.json`](docs/roadmap/phase-status.json).
+
+When instructed to **`build`**, the implementation process must read and validate that roadmap, implement the next incomplete phase on a dedicated branch, test it, open and inspect a PR, squash-merge it into `main`, and confirm the resulting merge commit.
+
 ## Phase map
 
-- **Phase 0 — Choose the board:** product constitution, wedge, trust rules, evidence plan, economics, risks.
-- **Phase 1 — Truth layer:** canonical content model, provenance, versioning, review workflow, safe publication. **Engineering foundation implemented.**
-- **Phase 2 — Learning loop:** onboarding, diagnostic, daily practice, mistake review, offline/idempotent attempts, progress restoration.
-- **Phase 3 — Learner model:** deterministic mastery and next-best-practice selection.
-- **Phase 4 — Grounded tutor:** source-backed Tamil explanations and misconception checks.
-- **Phase 5 — Controlled generation:** offline candidate generation, critics, validators, review, rollback.
+- **Phase 0 — Choose the board:** product constitution, wedge, trust rules, evidence plan, economics, risks. **Complete.**
+- **Phase 1 — Truth layer:** canonical content model, provenance, versioning, review workflow, safe publication. **Engineering foundation complete.**
+- **Phase 2 — Learning loop:** ready for the next `build` command.
+- **Phase 3 — Learner model:** planned after Phase 2.
+- **Phase 4 — Grounded tutor:** planned after Phase 3.
+- **Phase 5 — Controlled generation:** planned after Phase 4.
 
 Start with:
 
 - [`docs/phase-0/PHASE_0.md`](docs/phase-0/PHASE_0.md)
 - [`docs/phase-1/PHASE_1.md`](docs/phase-1/PHASE_1.md)
+- [`docs/roadmap/REMAINING_PHASES.md`](docs/roadmap/REMAINING_PHASES.md)
 - [`supabase/README.md`](supabase/README.md)
 
 ## Validation
@@ -46,6 +58,8 @@ Start with:
 ```bash
 npm test
 ```
+
+This validates question fixtures, static SQL contracts, and the remaining-phase roadmap/status manifest.
 
 With Supabase CLI installed and the project initialized:
 
@@ -67,4 +81,4 @@ No multi-exam launch, eight-language launch, live unreviewed question generation
 
 ---
 
-Initial blueprint created with Fable 5. Phase 0 made the position falsifiable; Phase 1 makes content truth enforceable.
+Initial blueprint created with Fable 5. Phase 0 made the position falsifiable; Phase 1 makes content truth enforceable; the remaining roadmap makes future implementation reproducible and reviewable.
