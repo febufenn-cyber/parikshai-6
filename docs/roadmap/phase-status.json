@@ -33,7 +33,7 @@
       "pr": 2,
       "merge_commit": "6c226f105f6fa0bbdb027568b8ccedf1cf9c554b",
       "entry_gate_document": "docs/phase-1/PHASE_1.md",
-      "handoff_document": "docs/phase-1/HANDOFF.md",
+      "handoff_document": "docs/phase-1/NEXT.md",
       "known_blockers": [
         "Run supabase db reset and supabase test db against the target Supabase/Postgres version before scored Phase 2 staging use."
       ]
