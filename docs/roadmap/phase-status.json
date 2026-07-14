@@ -42,16 +42,22 @@
       "id": 2,
       "slug": "learning-loop",
       "name": "Smallest complete learning loop",
-      "status": "ready",
+      "status": "in_progress",
       "pr": null,
       "merge_commit": null,
       "plan_anchor": "Phase 2 — Smallest Complete Learning Loop",
+      "entry_gate_document": "docs/phase-2/ENTRY_GATE.md",
+      "handoff_document": "docs/phase-2/HANDOFF.md",
       "required_documents": [
         "docs/phase-2/PHASE_2.md",
         "docs/phase-2/DECISIONS.md",
         "docs/phase-2/THREAT_MODEL.md",
         "docs/phase-2/VALIDATION.md",
         "docs/phase-2/HANDOFF.md"
+      ],
+      "known_blockers": [
+        "Run Phase 1 and Phase 2 migrations and pgTAP suites in the target Supabase/Postgres environment before scored staging use.",
+        "Exercise anonymous-to-auth attachment and reinstall restoration end to end in staging."
       ]
     },
     {

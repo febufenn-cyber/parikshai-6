@@ -1,0 +1,5 @@
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=replace-me
+SUPABASE_SERVICE_ROLE_KEY=replace-me-server-only
+APP_ENV=development
+API_VERSION=v1
