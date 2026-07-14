@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://parikshai.example/schemas/phase-status.schema.json",
+  "title": "Parikshai phase status manifest",
+  "type": "object",
+  "required": [
+    "roadmap_version",
+    "updated_at",
+    "repository",
+    "default_branch",
+    "build_command",
+    "phases",
+    "production_release_gate"
+  ],
+  "properties": {
+    "roadmap_version": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": "string", "format": "date" },
+    "repository": { "const": "febufenn-cyber/parikshai-6" },
+    "default_branch": { "const": "main" },
+    "build_command": {
+      "type": "object",
+      "required": ["default", "required_merge_strategy", "required_confirmation"],
+      "properties": {
+        "default": { "type": "string", "minLength": 1 },
+        "required_merge_strategy": { "const": "squash" },
+        "required_confirmation": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["id", "slug", "name", "status", "pr", "merge_commit"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 0, "maximum": 5 },
+          "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["planned", "ready", "in_progress", "blocked", "complete"] },
+          "depends_on": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "integer", "minimum": 0, "maximum": 5 }
+          },
+          "pr": { "type": ["integer", "null"], "minimum": 1 },
+          "merge_commit": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "entry_gate_document": { "type": "string" },
+          "handoff_document": { "type": "string" },
+          "plan_anchor": { "type": "string" },
+          "required_documents": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string" }
+          },
+          "known_blockers": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "production_release_gate": {
+      "type": "object",
+      "required": ["status", "counted_as_phase", "plan_anchor"],
+      "properties": {
+        "status": { "enum": ["planned", "ready", "in_progress", "blocked", "complete"] },
+        "counted_as_phase": { "const": false },
+        "plan_anchor": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
