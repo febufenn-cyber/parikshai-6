@@ -35,16 +35,16 @@
       "entry_gate_document": "docs/phase-1/PHASE_1.md",
       "handoff_document": "docs/phase-1/NEXT.md",
       "known_blockers": [
-        "Run supabase db reset and supabase test db against the target Supabase/Postgres version before scored Phase 2 staging use."
+        "Run supabase db reset and supabase test db against the target Supabase/Postgres version before scored staging use."
       ]
     },
     {
       "id": 2,
       "slug": "learning-loop",
       "name": "Smallest complete learning loop",
-      "status": "in_progress",
-      "pr": null,
-      "merge_commit": null,
+      "status": "complete",
+      "pr": 4,
+      "merge_commit": "1b17104ea619d0def2b48c78935b4a86d8d7b40c",
       "plan_anchor": "Phase 2 — Smallest Complete Learning Loop",
       "entry_gate_document": "docs/phase-2/ENTRY_GATE.md",
       "handoff_document": "docs/phase-2/HANDOFF.md",
@@ -64,11 +64,14 @@
       "id": 3,
       "slug": "learner-model",
       "name": "Deterministic learner model",
-      "status": "planned",
+      "status": "ready",
       "depends_on": [2],
       "pr": null,
       "merge_commit": null,
-      "plan_anchor": "Phase 3 — Deterministic Learner Model"
+      "plan_anchor": "Phase 3 — Deterministic Learner Model",
+      "known_blockers": [
+        "Database-backed evidence replay and end-to-end learning-loop validation remain required before production use."
+      ]
     },
     {
       "id": 4,
